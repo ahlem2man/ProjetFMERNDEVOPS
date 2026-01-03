@@ -1,0 +1,33 @@
+services:
+  # 1. Base de données MongoDB
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # 2. Le Backend (Node.js)
+  backend:
+    build: ./backend
+    container_name: backend_container
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/ma_base_de_donnees
+      # Remplacez "ma_base_de_donnees" par le nom de votre BDD
+    depends_on:
+      - mongodb
+
+  # 3. Le Frontend (React/Vite via Nginx)
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    ports:
+      - "3000:80" # On passe de 8080 à 3000
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
