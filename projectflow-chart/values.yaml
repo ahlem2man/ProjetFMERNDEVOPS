@@ -1,0 +1,16 @@
+replicaCount: 1
+
+frontend:
+  image: ahlemman26125831/frontend-projectflow:latest
+  servicePort: 80
+  nodePort: 30001
+
+backend:
+  image: ahlemman26125831/backend-projectflow:latest
+  servicePort: 5000
+  nodePort: 30002
+
+mongodb:
+  image: mongo:latest
+  port: 27017
+  storage: 1Gi

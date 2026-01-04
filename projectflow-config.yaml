@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: projectflow-config
+data:
+  MONGO_URI: "mongodb://mongodb-service:27017/project-management"
+  # Changez 5000 par 30002 pour passer par le tunnel Kubernetes NodePort
+  REACT_APP_API_URL: "http://localhost:30002"

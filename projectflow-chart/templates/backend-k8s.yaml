@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: {{ .Values.replicaCount }} 
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: {{ .Values.backend.image }} 
+        ports:
+        - containerPort: {{ .Values.backend.servicePort }}
+        env:
+          - name: MONGO_URI
+            valueFrom:
+              secretKeyRef:
+                name: projectflow-secrets
+                key: MONGO_URI
+          - name: GEMINI_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: projectflow-secrets
+                key: GEMINI_API_KEY
+---
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: NodePort
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: {{ .Values.backend.servicePort }}
+      targetPort: {{ .Values.backend.servicePort }}
+      nodePort: {{ .Values.backend.nodePort }}
