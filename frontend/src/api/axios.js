@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  // Remplacez 5000 par 30002 pour passer par le tunnel NodePort
+  baseURL: "http://localhost:30002/api", 
 });
 
 api.interceptors.request.use((config) => {

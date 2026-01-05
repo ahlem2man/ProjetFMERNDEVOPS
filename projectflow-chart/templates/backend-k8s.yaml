@@ -28,7 +28,13 @@ spec:
               secretKeyRef:
                 name: projectflow-secrets
                 key: GEMINI_API_KEY
----
+          # --- AJOUT ICI ---
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: projectflow-secrets
+                key: JWT_SECRET
+          # -----------------
 ---
 apiVersion: v1
 kind: Service

@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: projectflow-monitor
+  namespace: monitoring
+  labels:
+    release: prometheus-stack # Indispensable pour que Prometheus le détecte
+spec:
+  selector:
+    matchLabels:
+      app: projectflow # Vérifiez que c'est bien le label de votre service ProjectFlow
+  namespaceSelector:
+    matchNames:
+      - default # Le namespace où se trouve votre application
+  endpoints:
+  - port: http # Le nom du port défini dans votre service Kubernetes
+    path: /metrics # L'endpoint où votre app expose ses données
+    interval: 30s
